@@ -1,13 +1,15 @@
 import * as actionTypes from "./actionTypes";
 
-export const logUserIn = () => {
+export const logUserIn = auth => {
   return {
-    type: actionTypes.LOGIN_USER
+    type: actionTypes.LOGIN_USER,
+    payload: auth
   };
 };
 
-export const logOutUser = () => {
+export const logUserOut = auth => {
   return {
-    type: actionTypes.LOGOUT_USER
+    type: actionTypes.LOGOUT_USER,
+    payload: auth
   };
 };

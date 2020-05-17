@@ -25,14 +25,19 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-function MenuAppBar() {
+function MenuAppBar(props) {
   const classes = useStyles();
-  const [auth, setAuth] = React.useState(true);
+
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
 
   const handleChange = event => {
-    setAuth(event.target.checked);
+    console.log(event.target.checked);
+    if (event.target.checked) {
+      props.onLogin(event.target.checked);
+    } else {
+      props.onLogout(event.target.checked);
+    }
   };
 
   const handleMenu = event => {
@@ -49,12 +54,12 @@ function MenuAppBar() {
         <FormControlLabel
           control={
             <Switch
-              checked={auth}
+              checked={props.auth}
               onChange={handleChange}
               aria-label="login switch"
             />
           }
-          label={auth ? "Logout" : "Login"}
+          label={props.auth ? "Logout" : "Login"}
         />
       </FormGroup>
       <AppBar position="static">
@@ -68,9 +73,9 @@ function MenuAppBar() {
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" className={classes.title}>
-            {auth ? "Credit Card Dashboard" : "People United Bank"}
+            {props.auth ? "Credit Card Dashboard" : "People United Bank"}
           </Typography>
-          {auth && (
+          {props.auth && (
             <div>
               <IconButton
                 aria-label="account of current user"
@@ -103,7 +108,6 @@ function MenuAppBar() {
           )}
         </Toolbar>
       </AppBar>
-      <h1 className="text-center">Hello world</h1>
     </div>
   );
 }
