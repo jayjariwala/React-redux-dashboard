@@ -5,12 +5,12 @@ import Tab from "@material-ui/core/Tab";
 import { Link } from "react-router-dom";
 
 export default function TabNavigation() {
-  const [value, setValue] = React.useState(1);
+  const [value, setValue] = React.useState(0);
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
-
+  console.log(value);
   return (
     <Paper square style={{ marginTop: "30px" }}>
       <Tabs
@@ -21,8 +21,6 @@ export default function TabNavigation() {
         aria-label="disabled tabs example"
       >
         <Tab label="Statement & Activity"></Tab>
-
-        <Tab label="Rewards" />
       </Tabs>
     </Paper>
   );

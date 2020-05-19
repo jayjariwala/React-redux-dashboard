@@ -73,7 +73,7 @@ function MenuAppBar(props) {
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" className={classes.title}>
-            {props.auth ? "Credit Card Dashboard" : "People United Bank"}
+            {props.auth ? "Credit Card Dashboard" : "Bank"}
           </Typography>
           {props.auth && (
             <div>

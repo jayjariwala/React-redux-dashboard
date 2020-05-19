@@ -1,7 +1,8 @@
 import React, { Component, Fragment } from "react";
 import { connect } from "react-redux";
 import Header from "../../Components/Header/Header";
-import * as actions from "../../store/actions/auth";
+import * as auth from "../../store/actions/auth";
+import * as transactions from "../../store/actions/statement";
 import classes from "./Dashboard.module.css";
 import TabNavigation from "../../Components/TabNavigation/TabNavigation";
 import Container from "@material-ui/core/Container";
@@ -11,31 +12,26 @@ import Statements from "../Statement/Statements";
 import Rewards from "../Rewards/Rewards";
 
 class Dashboard extends Component {
+  componentDidMount() {
+    this.props.fetchTransactions();
+  }
+
   render() {
     const isLoggedin = this.props.showDashboard;
     if (isLoggedin) {
       console.log(isLoggedin);
       return (
         <Fragment>
-          <Router>
-            <Header
-              auth={this.props.showDashboard}
-              onLogin={this.props.onLogin}
-              onLogout={this.props.onLogOut}
-            />
-            <Container maxWidth="md">
-              <PayCard />
-              <Switch>
-                <TabNavigation />
-                <Route path="/statement-and-activity">
-                  <Statements />
-                </Route>
-                <Route path="/rewards">
-                  <Rewards />
-                </Route>
-              </Switch>
-            </Container>
-          </Router>
+          <Header
+            auth={this.props.showDashboard}
+            onLogin={this.props.onLogin}
+            onLogout={this.props.onLogOut}
+          />
+          <Container maxWidth="md">
+            <PayCard />
+            <TabNavigation />
+            <Statements transactions={this.props.transactions} />
+          </Container>
         </Fragment>
       );
     } else {
@@ -59,15 +55,18 @@ class Dashboard extends Component {
 }
 
 const mapStateToProps = state => {
+  console.log("STATE>>", state);
   return {
-    showDashboard: state.login
+    showDashboard: state.auth.login,
+    transactions: state.transaction.statements
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
-    onLogin: payload => dispatch(actions.logUserIn(payload)),
-    onLogOut: payload => dispatch(actions.logUserOut(payload))
+    onLogin: payload => dispatch(auth.logUserIn(payload)),
+    onLogOut: payload => dispatch(auth.logUserOut(payload)),
+    fetchTransactions: () => dispatch(transactions.fetchStatements())
   };
 };
 
